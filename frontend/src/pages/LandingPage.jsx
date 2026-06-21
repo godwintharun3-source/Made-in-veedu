@@ -24,7 +24,7 @@ export default function LandingPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get('http://localhost:8080/api/products');
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`);
         dispatch(setProducts(res.data));
       } catch (err) {
         console.error("Failed fetching products", err);
@@ -38,7 +38,7 @@ export default function LandingPage() {
     const fetchRecs = async () => {
       try {
         const payload = { user_id: isAuthenticated ? user.id : null };
-        const res = await axios.post('http://localhost:8000/recommend', payload);
+        const res = await axios.post(`${import.meta.env.VITE_AI_URL}/recommend`, payload);
         setRecs(res.data.recommendations);
       } catch (err) {
         console.error("Failed fetching recommendations", err);
@@ -67,7 +67,7 @@ export default function LandingPage() {
     
     // Add to DB since authenticated
     try {
-      await axios.post('http://localhost:8080/api/cart', {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/cart`, {
         productId: product.id,
         quantity: 1
       }, {

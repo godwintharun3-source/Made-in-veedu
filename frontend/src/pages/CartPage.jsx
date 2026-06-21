@@ -26,7 +26,7 @@ export default function CartPage() {
 
     if (isAuthenticated && cartItemId) {
       try {
-        await axios.put(`http://localhost:8080/api/cart/${cartItemId}`, {
+        await axios.put(`${import.meta.env.VITE_API_URL}/api/cart/${cartItemId}`, {
           quantity: newQty
         }, {
           headers: { Authorization: `Bearer ${localStorage.getItem('miv_access_token')}` }
@@ -42,7 +42,7 @@ export default function CartPage() {
 
     if (isAuthenticated && cartItemId) {
       try {
-        await axios.delete(`http://localhost:8080/api/cart/${cartItemId}`, {
+        await axios.delete(`${import.meta.env.VITE_API_URL}/api/cart/${cartItemId}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('miv_access_token')}` }
         });
       } catch (err) {

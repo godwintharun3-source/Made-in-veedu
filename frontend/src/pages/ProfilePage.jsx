@@ -88,7 +88,7 @@ export default function ProfilePage() {
 
     const fetchOrders = async () => {
       try {
-        const res = await axios.get('http://localhost:8080/api/orders', {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/orders`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('miv_access_token')}` }
         });
         setOrders(res.data);
@@ -154,7 +154,7 @@ export default function ProfilePage() {
     }
 
     try {
-      await axios.put('http://localhost:8080/api/auth/change-password', {
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/auth/change-password`, {
         oldPassword: passData.oldPassword,
         newPassword: passData.newPassword
       }, {

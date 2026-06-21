@@ -64,22 +64,22 @@ export default function AdminDashboard() {
 
     const loadStatsAndLists = async () => {
       try {
-        const statsRes = await axios.get('http://localhost:8080/api/admin/analytics', authHeader);
+        const statsRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/analytics`, authHeader);
         setStats(statsRes.data);
 
-        const usersRes = await axios.get('http://localhost:8080/api/admin/users', authHeader);
+        const usersRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/users`, authHeader);
         setUsersList(usersRes.data);
 
-        const prodsRes = await axios.get('http://localhost:8080/api/products');
+        const prodsRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`);
         setProductsList(prodsRes.data);
 
-        const ordersRes = await axios.get('http://localhost:8080/api/admin/orders', authHeader);
+        const ordersRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/orders`, authHeader);
         setOrdersList(ordersRes.data);
 
-        const couponsRes = await axios.get('http://localhost:8080/api/admin/coupons', authHeader);
+        const couponsRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/coupons`, authHeader);
         setCouponsList(couponsRes.data);
 
-        const contactsRes = await axios.get('http://localhost:8080/api/admin/contacts', authHeader);
+        const contactsRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/contacts`, authHeader);
         setContactsList(contactsRes.data);
       } catch (err) {
         console.error(err);
@@ -95,7 +95,7 @@ export default function AdminDashboard() {
   // Actions
   const handleToggleUserActive = async (id) => {
     try {
-      const res = await axios.put(`http://localhost:8080/api/admin/users/${id}/toggle-active`, {}, authHeader);
+      const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/admin/users/${id}/toggle-active`, {}, authHeader);
       setUsersList((prev) => prev.map((u) => u.id === id ? res.data : u));
     } catch (err) {
       console.error(err);
@@ -105,7 +105,7 @@ export default function AdminDashboard() {
   const handleDeleteUser = async (id) => {
     if (!window.confirm("Are you sure you want to permanently delete this user account?")) return;
     try {
-      await axios.delete(`http://localhost:8080/api/admin/users/${id}`, authHeader);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/admin/users/${id}`, authHeader);
       setUsersList((prev) => prev.filter((u) => u.id !== id));
     } catch (err) {
       console.error(err);
@@ -117,10 +117,10 @@ export default function AdminDashboard() {
     e.preventDefault();
     try {
       if (modalMode === 'CREATE') {
-        const res = await axios.post('http://localhost:8080/api/admin/products', productForm, authHeader);
+        const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/admin/products`, productForm, authHeader);
         setProductsList((prev) => [...prev, res.data]);
       } else {
-        const res = await axios.put(`http://localhost:8080/api/admin/products/${productForm.id}`, productForm, authHeader);
+        const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/admin/products/${productForm.id}`, productForm, authHeader);
         setProductsList((prev) => prev.map((p) => p.id === productForm.id ? res.data : p));
       }
       setShowProductModal(false);
@@ -132,7 +132,7 @@ export default function AdminDashboard() {
   const handleDeleteProduct = async (id) => {
     if (!window.confirm("Delete this product?")) return;
     try {
-      await axios.delete(`http://localhost:8080/api/admin/products/${id}`, authHeader);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/admin/products/${id}`, authHeader);
       setProductsList((prev) => prev.filter((p) => p.id !== id));
     } catch (err) {
       console.error(err);
@@ -141,7 +141,7 @@ export default function AdminDashboard() {
 
   const handleOrderStatusUpdate = async (id, status) => {
     try {
-      const res = await axios.put(`http://localhost:8080/api/admin/orders/${id}/status`, { status }, authHeader);
+      const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/admin/orders/${id}/status`, { status }, authHeader);
       setOrdersList((prev) => prev.map((o) => o.id === id ? res.data : o));
     } catch (err) {
       console.error(err);
@@ -151,7 +151,7 @@ export default function AdminDashboard() {
   const handleDeleteOrder = async (id) => {
     if (!window.confirm("Are you sure you want to permanently delete this customer order?")) return;
     try {
-      await axios.delete(`http://localhost:8080/api/admin/orders/${id}`, authHeader);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/admin/orders/${id}`, authHeader);
       setOrdersList((prev) => prev.filter((o) => o.id !== id));
     } catch (err) {
       console.error(err);
@@ -168,7 +168,7 @@ export default function AdminDashboard() {
         discountPercentage: couponForm.discountPercentage,
         expiryDate: formattedDate
       };
-      const res = await axios.post('http://localhost:8080/api/admin/coupons', payload, authHeader);
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/admin/coupons`, payload, authHeader);
       setCouponsList((prev) => [...prev, res.data]);
       setCouponForm({ code: '', discountPercentage: 10, expiryDate: '' });
     } catch (err) {
@@ -178,7 +178,7 @@ export default function AdminDashboard() {
 
   const handleDeleteCoupon = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/api/admin/coupons/${id}`, authHeader);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/admin/coupons/${id}`, authHeader);
       setCouponsList((prev) => prev.filter((c) => c.id !== id));
     } catch (err) {
       console.error(err);
@@ -189,7 +189,7 @@ export default function AdminDashboard() {
     e.preventDefault();
     setEmailSuccess('');
     try {
-      await axios.post('http://localhost:8080/api/admin/bulk-email', {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/admin/bulk-email`, {
         subject: emailSubject,
         message: emailMessage
       }, authHeader);

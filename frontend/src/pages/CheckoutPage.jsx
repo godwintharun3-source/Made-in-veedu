@@ -87,7 +87,7 @@ export default function CheckoutPage() {
         couponCode: null
       };
 
-      const res = await axios.post('http://localhost:8080/api/orders', payload, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/orders`, payload, {
         headers: { Authorization: `Bearer ${localStorage.getItem('miv_access_token')}` }
       });
 

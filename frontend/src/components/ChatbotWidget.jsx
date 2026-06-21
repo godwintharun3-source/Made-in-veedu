@@ -35,7 +35,7 @@ export default function ChatbotWidget() {
         user_id: isAuthenticated ? user.id : null
       };
 
-      const res = await axios.post('http://localhost:8000/chat', payload);
+      const res = await axios.post(`${import.meta.env.VITE_AI_URL}/chat`, payload);
       const botMsg = { text: res.data.reply, isBot: true };
       setMessages((prev) => [...prev, botMsg]);
     } catch (err) {

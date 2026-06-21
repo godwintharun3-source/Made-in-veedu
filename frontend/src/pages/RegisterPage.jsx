@@ -118,7 +118,7 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      const res = await axios.post('http://localhost:8080/api/auth/signup', formData);
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signup`, formData);
       dispatch(setCredentials(res.data));
       
       // Pull offline local cart items
@@ -126,7 +126,7 @@ export default function RegisterPage() {
       if (localCart.length > 0) {
         for (const item of localCart) {
           try {
-            await axios.post('http://localhost:8080/api/cart', {
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/cart`, {
               productId: item.product.id,
               quantity: item.quantity
             }, {
@@ -140,7 +140,7 @@ export default function RegisterPage() {
 
       // Sync and retrieve consolidated cart from backend database
       try {
-        const cartRes = await axios.get('http://localhost:8080/api/cart', {
+        const cartRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/cart`, {
           headers: { Authorization: `Bearer ${res.data.accessToken}` }
         });
         dispatch(setCartItems(cartRes.data));

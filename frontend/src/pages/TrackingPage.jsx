@@ -15,7 +15,7 @@ export default function TrackingPage() {
   useEffect(() => {
     const fetchOrderDetails = async () => {
       try {
-        const res = await axios.get(`http://localhost:8080/api/orders/${id}`, {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/orders/${id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('miv_access_token')}` }
         });
         setOrder(res.data);
@@ -48,7 +48,7 @@ export default function TrackingPage() {
 
   const handleDownloadInvoice = () => {
     // Open in a new tab to let user print or save as PDF
-    window.open(`http://localhost:8080/api/orders/${id}/invoice`, '_blank');
+    window.open(`${import.meta.env.VITE_API_URL}/api/orders/${id}/invoice`, '_blank');
   };
 
   if (loading) {

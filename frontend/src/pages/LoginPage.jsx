@@ -59,7 +59,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const res = await axios.post('http://localhost:8080/api/auth/signin', { email, password });
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signin`, { email, password });
       dispatch(setCredentials(res.data));
       
       // Pull offline local cart items
@@ -67,7 +67,7 @@ export default function LoginPage() {
       if (localCart.length > 0) {
         for (const item of localCart) {
           try {
-            await axios.post('http://localhost:8080/api/cart', {
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/cart`, {
               productId: item.product.id,
               quantity: item.quantity
             }, {
@@ -81,7 +81,7 @@ export default function LoginPage() {
 
       // Sync and retrieve consolidated cart from backend database
       try {
-        const cartRes = await axios.get('http://localhost:8080/api/cart', {
+        const cartRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/cart`, {
           headers: { Authorization: `Bearer ${res.data.accessToken}` }
         });
         dispatch(setCartItems(cartRes.data));
@@ -109,7 +109,7 @@ export default function LoginPage() {
     setForgotSuccess('');
 
     try {
-      await axios.post('http://localhost:8080/api/auth/forgot-password', { email: forgotEmail });
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/forgot-password`, { email: forgotEmail });
       setForgotStep(2);
       setForgotSuccess('A 6-digit OTP code has been sent to your email address.');
     } catch (err) {
@@ -134,7 +134,7 @@ export default function LoginPage() {
     }
 
     try {
-      await axios.post('http://localhost:8080/api/auth/reset-password', {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/reset-password`, {
         email: forgotEmail,
         otp: otpCode,
         password: newPassword,

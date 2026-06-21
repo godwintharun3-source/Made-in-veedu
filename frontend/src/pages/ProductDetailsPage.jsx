@@ -29,10 +29,10 @@ export default function ProductDetailsPage() {
   useEffect(() => {
     const loadProductAndReviews = async () => {
       try {
-        const prodRes = await axios.get(`http://localhost:8080/api/products/${id}`);
+        const prodRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/products/${id}`);
         setProduct(prodRes.data);
 
-        const revsRes = await axios.get(`http://localhost:8080/api/reviews/product/${id}`);
+        const revsRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/reviews/product/${id}`);
         setReviews(revsRes.data);
       } catch (err) {
         console.error(err);
@@ -55,7 +55,7 @@ export default function ProductDetailsPage() {
     
     // Sync to backend since authenticated
     try {
-      await axios.post('http://localhost:8080/api/cart', {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/cart`, {
         productId: product.id,
         quantity: quantity
       }, {
@@ -89,7 +89,7 @@ export default function ProductDetailsPage() {
     setReviewSuccess('');
 
     try {
-      const res = await axios.post('http://localhost:8080/api/reviews', {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/reviews`, {
         productId: product.id,
         rating,
         comment

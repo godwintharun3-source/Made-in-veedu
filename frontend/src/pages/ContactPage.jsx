@@ -26,7 +26,7 @@ export default function ContactPage() {
     setLoading(true);
 
     try {
-      await axios.post('http://localhost:8080/api/contact', formData);
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/contact`, formData);
       setSuccess('Your contact request has been sent! We will get back to you shortly.');
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (err) {

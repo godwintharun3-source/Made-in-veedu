@@ -33,7 +33,7 @@ export default function Navbar() {
 
     try {
       // Hit the FastAPI NLP smart search endpoint
-      const res = await axios.post('http://localhost:8000/search', { query: searchQuery });
+      const res = await axios.post(`${import.meta.env.VITE_AI_URL}/search`, { query: searchQuery });
       dispatch(setSearchResults(res.data.results));
       dispatch(setCategory('Search Results'));
       navigate('/');
