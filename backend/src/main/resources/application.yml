@@ -1,0 +1,45 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: made-in-veedu-backend
+  
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/madeinveedu?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:rootpassword}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  mail:
+    host: ${SPRING_MAIL_HOST:smtp.gmail.com}
+    port: ${SPRING_MAIL_PORT:587}
+    username: ${SPRING_MAIL_USERNAME:desienterprises1011@gmail.com}
+    password: ${SPRING_MAIL_PASSWORD:your_gmail_app_password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+# Custom JWT configuration
+app:
+  jwt:
+    secret: ${JWT_SECRET:MadeInVeeduSuperSecretKeyForJWTTokenSigning2026AppV1PlusExtraSecureBytes}
+    access-expiration-ms: 3600000        # 1 Hour
+    refresh-expiration-ms: 2592000000    # 30 Days
+    otp-expiration-ms: 300000            # 5 Minutes
+  
+  encryption:
+    secret-key: ${ENCRYPTION_KEY:VeeduMadeSecureKeyEncryption2026} # 32 bytes or string for AES-256 key generation

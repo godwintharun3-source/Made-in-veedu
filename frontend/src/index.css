@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@layer base {
+  body {
+    @apply font-sans antialiased transition-colors duration-500 bg-slate-50 text-slate-900;
+  }
+  
+  body.dark {
+    @apply bg-[#080d08] text-slate-100;
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 rounded-full dark:bg-slate-700;
+  }
+}
+
+/* Glassmorphism Classes */
+.glass-panel, .glass-card {
+  @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl;
+  background-image: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%);
+}
+
+.dark .glass-panel, .dark .glass-card {
+  @apply bg-[#121c12]/60 backdrop-blur-md border border-white/5 shadow-2xl;
+  background-image: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+}
+
+.glass-card {
+  @apply rounded-3xl transition-all duration-300;
+}
+
+.glass-card-hover {
+  @apply hover:shadow-2xl hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.99];
+}
+
+/* Custom Gradients */
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-brand to-teal-500;
+}
+
+.dark .gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-brand-light to-teal-400;
+}
+
+.gradient-bg-light {
+  background: radial-gradient(circle at 10% 20%, rgb(242, 252, 243) 0.1%, rgb(248, 250, 252) 90.1%);
+}
+
+.gradient-bg-dark {
+  background: radial-gradient(circle at 50% 50%, rgb(10, 20, 10) 0%, rgb(5, 5, 5) 100%);
+}
+
+/* Blur spots for Generative UI background */
+.blur-spot {
+  @apply absolute rounded-full filter blur-[100px] opacity-25 dark:opacity-20 pointer-events-none;
+}
+
+.blur-emerald {
+  @apply bg-emerald-400 dark:bg-emerald-700 w-96 h-96;
+}
+
+.blur-teal {
+  @apply bg-teal-400 dark:bg-teal-700 w-80 h-80;
+}
+
+.blur-brand {
+  @apply bg-brand-light dark:bg-brand-dark w-96 h-96;
+}

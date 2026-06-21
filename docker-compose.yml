@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: miv-mysql-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: madeinveedu
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
+      - ./sql/data.sql:/docker-entrypoint-initdb.d/2-data.sql
+    networks:
+      - miv-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: miv-backend-api
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/madeinveedu?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=rootpassword
+      - SPRING_MAIL_HOST=smtp.gmail.com
+      - SPRING_MAIL_PORT=5857
+      - SPRING_MAIL_USERNAME=desienterprises1011@gmail.com
+      - SPRING_MAIL_PASSWORD=your_gmail_app_password
+      - JWT_SECRET=MadeInVeeduSuperSecretKeyForJWTTokenSigning2026AppV1PlusExtraSecureBytes
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - miv-network
+
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    container_name: miv-ai-service
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=mysql+pymysql://root:rootpassword@db:3306/madeinveedu
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - miv-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: miv-frontend-ui
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+      - ai-service
+    networks:
+      - miv-network
+
+volumes:
+  mysql-data:
+
+networks:
+  miv-network:
+    driver: bridge

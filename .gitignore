@@ -1,0 +1,34 @@
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Backend (Spring Boot)
+backend/target/
+backend/bin/
+backend/.settings/
+backend/.classpath
+backend/.project
+backend/*.log
+
+# Frontend (Vite / React)
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/npm-debug.log*
+
+# AI Service (Python)
+ai-service/venv/
+ai-service/__pycache__/
+ai-service/*.pyc
+ai-service/.pytest_cache/
+ai-service/.env
+
+# Data
+sql/data.sql.bak
