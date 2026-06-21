@@ -1,4 +1,4 @@
-USE madeinveedu;
+-- USE madeinveedu;
 
 -- Clear tables to prevent duplicates
 DELETE FROM coupons;

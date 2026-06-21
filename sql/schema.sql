@@ -1,6 +1,6 @@
 -- Create Database if not exists
-CREATE DATABASE IF NOT EXISTS madeinveedu;
-USE madeinveedu;
+-- CREATE DATABASE IF NOT EXISTS madeinveedu;
+-- USE madeinveedu;
 
 -- USERS TABLE
 CREATE TABLE IF NOT EXISTS users (
